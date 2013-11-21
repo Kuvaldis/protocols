@@ -11,10 +11,6 @@ import server.Operation;
 import server.Work;
 import shared.SharedStruct;
 
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * User: NFadin
  * Date: 21.11.13
@@ -22,11 +18,9 @@ import java.util.concurrent.Executors;
  */
 public class CalculatorClient {
 
-    private static ExecutorService service = Executors.newFixedThreadPool(5);
-
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
-            service.submit(new ClientTask());
+            new ClientTask().run();
         }
     }
 
@@ -71,14 +65,10 @@ public class CalculatorClient {
                 System.out.println("Check log: " + log.value);
 
                 System.out.println("Print list...");
-                for (SharedStruct sharedStruct : client.getAllStructsList()) {
-                    System.out.println(sharedStruct.key + ": " + sharedStruct.value);
-                }
+                System.out.println(client.getAllStructsList());
 
                 System.out.println("Print map...");
-                for (Map.Entry<Integer, SharedStruct> entry : client.getAllStructsMap().entrySet()) {
-                    System.out.println();
-                }
+                System.out.println(client.getAllStructsMap());
 
                 transport.close();
             } catch (TException e) {
