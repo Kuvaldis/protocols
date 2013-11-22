@@ -11,6 +11,8 @@
     <modules>
         <module>thrift</module>
         <module>protobuf</module>
+        <module>shared</module>
+        <module>compare</module>
     </modules>
 
     <pluginRepositories>

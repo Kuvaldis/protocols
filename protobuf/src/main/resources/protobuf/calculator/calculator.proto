@@ -1,0 +1,59 @@
+package calculator;
+
+option java_package = "example";
+option java_outer_classname = "Calculator";
+
+message Work {
+    enum Operation {
+        ADD = 1;
+        SUBTRACT = 2;
+        MULTIPLY = 3;
+        DIVIDE = 4;
+    }
+
+    required int32 num1 = 1 [default = 0];
+    required int32 num2 = 2;
+    required Operation op = 3;
+    optional string comment = 4;
+
+    // no exceptions in protobuf
+
+}
+
+message CalculateRequest {
+    required int32 logid = 1;
+    required Work work = 2;
+}
+
+message AddRequest {
+    required int32 number = 1 [default = 0];
+    required int32 number = 2;
+}
+
+message Number {
+    required int32 number = 1;
+}
+
+message VoidRequest {
+
+}
+
+message VoidResponse {
+
+}
+
+message SharedStructRequest {
+    repeated SharedStruct
+}
+
+// no inheritance of services
+service CalculatorService {
+    rpc Ping (VoidRequest) returns (VoidResponse); // no void message request/response
+    rpc Add (AddRequest) returns (Number); // only one parameter should be
+    rpc Calculate (CalculateRequest) returns (Number); // no scalar types here
+    rpc Zip (VoidRequest) returns (VoidResponse); // one way response depends on rpc implementation, i guess...
+    rpc GetStruct (Number)
+    SharedStruct getStruct(1:int key)
+    list<SharedStruct> getAllStructsList() // container example (list)
+    map<int, SharedStruct> getAllStructsMap() // container example (map)
+}
