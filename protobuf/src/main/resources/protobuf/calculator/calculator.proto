@@ -1,6 +1,9 @@
 package calculator;
 
-option java_package = "example";
+import "shared/shared.proto";
+
+option java_generic_services = true;
+option java_package = "calculator";
 option java_outer_classname = "Calculator";
 
 message Work {
@@ -26,8 +29,8 @@ message CalculateRequest {
 }
 
 message AddRequest {
-    required int32 number = 1 [default = 0];
-    required int32 number = 2;
+    required int32 num1 = 1 [default = 0];
+    required int32 num2 = 2;
 }
 
 message Number {
@@ -42,8 +45,12 @@ message VoidResponse {
 
 }
 
-message SharedStructRequest {
-    repeated SharedStruct
+message SharedStructList {
+    repeated shared.SharedStruct struct = 1;
+}
+
+message SharedStructMap {
+    repeated shared.SharedStructEntry entry = 1;
 }
 
 // no inheritance of services
@@ -52,8 +59,7 @@ service CalculatorService {
     rpc Add (AddRequest) returns (Number); // only one parameter should be
     rpc Calculate (CalculateRequest) returns (Number); // no scalar types here
     rpc Zip (VoidRequest) returns (VoidResponse); // one way response depends on rpc implementation, i guess...
-    rpc GetStruct (Number)
-    SharedStruct getStruct(1:int key)
-    list<SharedStruct> getAllStructsList() // container example (list)
-    map<int, SharedStruct> getAllStructsMap() // container example (map)
+    rpc GetStruct (Number) returns (shared.SharedStruct);
+    rpc GetAllStructsList (VoidRequest) returns (SharedStructList);
+    rpc GetAllStructsMap(VoidRequest) returns (SharedStructMap); // like map...
 }

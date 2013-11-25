@@ -16,12 +16,10 @@ import shared.SharedStruct;
  * Date: 21.11.13
  * Time: 13:31
  */
-public class CalculatorClient {
+public class ThriftCalculatorClient {
 
     public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            new ClientTask().run();
-        }
+        new ClientTask().run();
     }
 
     private static class ClientTask implements Runnable {
@@ -56,7 +54,7 @@ public class CalculatorClient {
                 work.num2 = 10;
                 try {
                     int diff = client.calculate(1, work);
-                    System.out.println("15-10=" + diff);
+                    System.out.println("15 - 10 = " + diff);
                 } catch (InvalidOperation io) {
                     System.out.println("Invalid operation: " + io.why);
                 }
